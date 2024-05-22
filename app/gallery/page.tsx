@@ -51,23 +51,23 @@ export default function Gallery() {
             >
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-guru/1.JPG"
+                src="/assets/images/gallery/fotbar-guru/1.jpg"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-guru/2.JPG"
+                src="/assets/images/gallery/fotbar-guru/2.jpg"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-guru/3.JPG"
+                src="/assets/images/gallery/fotbar-guru/3.jpg"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-guru/4.JPG"
+                src="/assets/images/gallery/fotbar-guru/4.jpg"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/csui23-gathering/6.JPG"
+                src="/assets/images/gallery/fotbar-guru/6.jpg"
               />
             </Carousel>
           </div>
