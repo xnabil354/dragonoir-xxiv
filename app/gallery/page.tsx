@@ -65,10 +65,6 @@ export default function Gallery() {
                 variant="image"
                 src="/assets/images/gallery/fotbar-guru/4.jpg"
               />
-              <MyCarousel
-                variant="image"
-                src="/assets/images/gallery/fotbar-guru/6.jpg"
-              />
             </Carousel>
           </div>
         </div>
