@@ -82,51 +82,51 @@ export default function Gallery() {
             >
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-angkatan/1.jpg"
+                src="/assets/images/gallery/fotbar-angkatan/1.JPG"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-angkatan/2.jpg"
+                src="/assets/images/gallery/fotbar-angkatan/2.JPG"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-angkatan/3.jpg"
+                src="/assets/images/gallery/fotbar-angkatan/3.JPG"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-angkatan/4.jpg"
+                src="/assets/images/gallery/fotbar-angkatan/4.JPG"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-angkatan/5.jpg"
+                src="/assets/images/gallery/fotbar-angkatan/5.JPG"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-angkatan/6.jpg"
+                src="/assets/images/gallery/fotbar-angkatan/6.JPG"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-angkatan/7.jpg"
+                src="/assets/images/gallery/fotbar-angkatan/7.JPG"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-angkatan/8.jpg"
+                src="/assets/images/gallery/fotbar-angkatan/8.JPG"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-angkatan/9.jpg"
+                src="/assets/images/gallery/fotbar-angkatan/9.JPG"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-angkatan/10.jpg"
+                src="/assets/images/gallery/fotbar-angkatan/10.JPG"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-angkatan/11.jpg"
+                src="/assets/images/gallery/fotbar-angkatan/11.JPG"
               />
               <MyCarousel
                 variant="image"
-                src="/assets/images/gallery/fotbar-angkatan/12.jpg"
+                src="/assets/images/gallery/fotbar-angkatan/12.JPG"
               />
             </Carousel>
           </div>
