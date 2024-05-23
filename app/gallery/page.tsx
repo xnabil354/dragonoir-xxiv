@@ -7,12 +7,12 @@ import React from "react";
 export default function Gallery() {
   return (
     <div className="mt-40 px-3">
-      <h1 className="z-10 text-7xl font-clash-display text-center mb-20">
+      <h1 className="z-10 text-7xl font-mono text-center mb-20">
         Our Moments
       </h1>
       <div className="flex flex-col space-y-20">
         <div>
-          <h1 className="text-3xl text-center font-clash-display py-2 px-5 mb-5">
+          <h1 className="text-3xl text-center font-mono py-2 px-5 mb-5">
             DRAGONOIR XXIV GATHERING
           </h1>
           <div className="bg-neutral-200/75 border-white border-2 border-opacity-30 rounded-2xl md:px-4">
@@ -38,7 +38,7 @@ export default function Gallery() {
           </div>
         </div>
         <div>
-          <h1 className="text-3xl text-center font-clash-display py-2 px-5 mb-5">
+          <h1 className="text-3xl text-center font-mono py-2 px-5 mb-5">
             Foto Bareng Guru
           </h1>
 
@@ -69,7 +69,7 @@ export default function Gallery() {
           </div>
         </div>
         <div>
-          <h1 className="text-3xl text-center font-clash-display py-2 px-5 mb-5">
+          <h1 className="text-3xl text-center font-mono py-2 px-5 mb-5">
             Foto Bareng Angkatan
           </h1>
 
@@ -132,7 +132,7 @@ export default function Gallery() {
           </div>
         </div>
         <div>
-          <h1 className="text-3xl text-center font-clash-display py-2 px-5 mb-5">
+          <h1 className="text-3xl text-center font-mono py-2 px-5 mb-5">
             Black & White
           </h1>
           <div className="bg-neutral-200/75 border-white border-2 border-opacity-30 rounded-2xl md:px-4">
@@ -166,7 +166,7 @@ export default function Gallery() {
           </div>
         </div>
         <div>
-          <h1 className="text-3xl text-center font-clash-display py-2 px-5 mb-5">
+          <h1 className="text-3xl text-center font-mono py-2 px-5 mb-5">
             Random Kegiatan
           </h1>
 

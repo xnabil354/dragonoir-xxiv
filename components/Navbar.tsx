@@ -56,11 +56,11 @@ export default function Navbar() {
             Gallery
           </NavLink>
           <NavLink
-            isActive={pathname === "/libelstudy/"}
-            href="/libelstudy"
+            isActive={pathname === "/contact/"}
+            href="/contact"
             onClick={() => setOpen(false)}
           >
-            Libels Study
+            Contact Us
           </NavLink>
 
           <button
@@ -106,8 +106,8 @@ export default function Navbar() {
           Gallery
         </NavLink>
         <NavLink
-          isActive={pathname === "/libelstudy/"}
-          href="/libelstudy"
+          isActive={pathname === "/contact/"}
+          href="/contact"
           onClick={() => setOpen(false)}
         >
           Libels Study

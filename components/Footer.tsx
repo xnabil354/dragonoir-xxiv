@@ -18,7 +18,7 @@ export default function Footer() {
           <Link href="/the-fam">The Fam!</Link>
           <Link href="/the-team">Meet The Team</Link>
           <Link href="/gallery">Gallery</Link>
-          <Link href="/libelsstudy">Libels Study</Link>
+          <Link href="/contact">Contact Us</Link>
         </div>
       </div>
       <div className="grow flex flex-col lg:flex-row justify-evenly lg:justify-end items-center lg:space-x-10 space-y-4 lg:space-y-0">
