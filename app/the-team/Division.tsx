@@ -1,4 +1,4 @@
-import ProfileCard from "@/components/ProfileCard";
+import ProfileCard from "@/components/ProfileCardAngkatan";
 
 export interface DivisionProps {
   name: string;

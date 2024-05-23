@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import names from "../../data/name-major.json";
 import images from "../../data/teachers_images.json";
-import ProfileCard from "@/components/ProfileCard";
+import ProfileCard from "@/components/ProfileCardTeacher";
 
 export default function TheFam() {
   const [id, setId] = useState("");
