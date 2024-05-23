@@ -82,7 +82,7 @@ export default function Navbar() {
           open ? "bottom-0" : "-bottom-[150%]"
         } visible duration-700 fixed md:static h-screen w-screen md:w-auto z-50 md:h-auto flex md:hidden flex-col md:flex-row backdrop-blur md:backdrop-blur-0 justify-center items-center gap-4 md:gap-2`}
       >
-        <h1 className="md:hidden text-4xl mb-20 font-clash-display">DRAGONOIR XXIV</h1>
+        <h1 className="md:hidden text-4xl mb-20 font-mono">DRAGONOIR XXIV</h1>
 
         <NavLink
           isActive={pathname === "/the-fam/"}

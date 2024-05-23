@@ -19,7 +19,7 @@ export default function Home() {
             href="#."
           >
             <FaArrowDown />
-            <h1 className="ml-2 md:ml-3">See More</h1>
+            <h1 className="ml-2 md:ml-3 font-mono">See More</h1>
           </Link>
         </div>
       </div>
@@ -45,7 +45,7 @@ Gue juga pengen ngucapin terima kasih yang sebesar-besarnya buat semua pihak yan
           </Chat>
         </div>
         <div className="min-[500px]:max-w-sm md:max-w-3xl mx-auto">
-          <h1 className="text-3xl text-center font-clash-display py-2 px-5 mb-5">
+          <h1 className="text-3xl text-center font-mono py-2 px-5 mb-5">
             OUR MOMENTS
           </h1>
           <div className="bg-neutral-200/75 border-white border-2 border-opacity-30 rounded-2xl md:px-4">
