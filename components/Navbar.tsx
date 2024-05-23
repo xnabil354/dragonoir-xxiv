@@ -110,7 +110,7 @@ export default function Navbar() {
           href="/contact"
           onClick={() => setOpen(false)}
         >
-          Libels Study
+          Contact Us
         </NavLink>
 
         <button
