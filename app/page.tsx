@@ -7,8 +7,36 @@ import Link from "next/link";
 import { FaArrowDown } from "react-icons/fa";
 import Chat from "./Chat";
 import { useState, useEffect } from 'react';
-
+import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 export default function Home() {
+
+// Tambahkan di dalam komponen Home
+<NextSeo
+  title="Dragonoir XXIV - Perpisahan Kelas 12"
+  description="Selamat datang di acara perpisahan kelas 12 Dragonoir XXIV. Nikmati momen-momen terbaik bersama kami."
+  canonical="https://www.dragonoir.my.id"
+  openGraph={{
+    url: 'https://www.dragonoir.my.id',
+    title: 'Dragonoir XXIV - Perpisahan Kelas 12',
+    description: 'Selamat datang di acara perpisahan kelas 12 Dragonoir XXIV. Nikmati momen-momen terbaik bersama kami.',
+    images: [
+      {
+        url: '/assets/images/gallery/black-white/1.jpg',
+        width: 800,
+        height: 600,
+        alt: 'Dragonoir XXIV',
+      },
+    ],
+    site_name: 'Dragonoir XXIV',
+  }}
+  twitter={{
+    handle: '@dragonoir_',
+    site: '@dragonoir_instagram',
+    cardType: 'summary_large_image',
+  }}
+/>
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const images = [
     "/assets/images/gallery/black-white/1.jpg",
@@ -28,6 +56,19 @@ export default function Home() {
 
   return (
     <div>
+      <Head>
+        <title>Dragonoir XXIV - Perpisahan Kelas 12</title>
+        <meta name="description" content="Selamat datang di acara perpisahan kelas 12 Dragonoir XXIV. Nikmati momen-momen terbaik bersama kami." />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="Dragonoir XXIV - Perpisahan Kelas 12" />
+        <meta property="og:description" content="Selamat datang di acara perpisahan kelas 12 Dragonoir XXIV. Nikmati momen-momen terbaik bersama kami." />
+        <meta property="og:image" content="/assets/images/gallery/black-white/1.jpg" />
+        <meta property="og:url" content="https://www.dragonoir.my.id" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:site_name" content="Dragonoir XXIV" />
+        <meta name="instagram:site" content="@dragonoir_instagram" />
+        <meta name="instagram:card" content="summary_large_image" />
+      </Head>
       <div className="relative">
         <div className="bg-hero bg-center bg-cover w-screen h-screen flex flex-col space-y-4 lg:space-y-12 justify-center items-center">
           <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-rose-600 text-center font-sans md:font-serif">
