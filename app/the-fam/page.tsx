@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import names from "../../data/name-major.json";
 import images from "../../data/teachers_images.json";
 import ProfileCard from "@/components/ProfileCardTeacher";
@@ -15,17 +15,32 @@ export default function TheFam() {
   const [retirement, setRetirement] = useState("");
 
   // Gabungkan data images dengan profiles
-  const profiles = names.map((profile) => {
-    const image = images.find((img) => img.id === profile.id);
-    return { ...profile, imageUrl: image ? image.url : null };
-  }).filter((c) =>
-    (id ? c.id.toLowerCase().includes(id.toLowerCase()) : true) &&
-    (education ? c.education.toLowerCase().includes(education.toLowerCase()) : true) &&
-    (position ? c.position.toLowerCase().includes(position.toLowerCase()) : true) &&
-    (additionalDuties ? c.additional_duties.toLowerCase().includes(additionalDuties.toLowerCase()) : true) &&
-    (joined ? c.joined.toLowerCase().includes(joined.toLowerCase()) : true) &&
-    (retirement ? c.retirement.toLowerCase().includes(retirement.toLowerCase()) : true)
-  );
+  const profiles = names
+    .map((profile) => {
+      const image = images.find((img) => img.id === profile.id);
+      return { ...profile, imageUrl: image ? image.url : null };
+    })
+    .filter(
+      (c) =>
+        (id ? c.id.toLowerCase().includes(id.toLowerCase()) : true) &&
+        (education
+          ? c.education.toLowerCase().includes(education.toLowerCase())
+          : true) &&
+        (position
+          ? c.position.toLowerCase().includes(position.toLowerCase())
+          : true) &&
+        (additionalDuties
+          ? c.additional_duties
+              .toLowerCase()
+              .includes(additionalDuties.toLowerCase())
+          : true) &&
+        (joined
+          ? c.joined.toLowerCase().includes(joined.toLowerCase())
+          : true) &&
+        (retirement
+          ? c.retirement.toLowerCase().includes(retirement.toLowerCase())
+          : true)
+    );
 
   return (
     <div className="mt-40">
@@ -75,13 +90,15 @@ export default function TheFam() {
       </div>
       <div className="flex flex-col items-center px-6">
         <div className="flex flex-col items-center">
-          <h1 className="z-10 text-7xl font-mono text-center mb-8">Meet Our Staff & Teachers!</h1>
-          <div className="inline-flex flex-col md:flex-row justify-center shadow-sm">
+          <h1 className="z-10 text-7xl font-mono text-center mb-8">
+            Meet Our Staff & Teachers!
+          </h1>
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
             <input
               type="text"
               placeholder="Search by ID"
-              className="px-3 py-2 mr-9 rounded-t-md rounded-bl-none md:rounded-tr-none md:rounded-l-md bg-opacity-50 bg-white backdrop-blur"
-              defaultValue={id}
+              className="px-3 py-2 rounded-md bg-opacity-50 bg-white backdrop-blur shadow-md"
+              value={id}
               onChange={(e) => {
                 setId(e.target.value);
               }}
@@ -89,8 +106,8 @@ export default function TheFam() {
             <input
               type="text"
               placeholder="Search by Education"
-              className="px-3 py-2 mr-9 rounded-t-md rounded-bl-none md:rounded-tr-none md:rounded-l-md bg-opacity-50 bg-white backdrop-blur"
-              defaultValue={education}
+              className="px-3 py-2 rounded-md bg-opacity-50 bg-white backdrop-blur shadow-md"
+              value={education}
               onChange={(e) => {
                 setEducation(e.target.value);
               }}
@@ -98,8 +115,8 @@ export default function TheFam() {
             <input
               type="text"
               placeholder="Search by Position"
-              className="px-3 py-2 mr-9 rounded-t-md rounded-bl-none md:rounded-tr-none md:rounded-l-md bg-opacity-50 bg-white backdrop-blur"
-              defaultValue={position}
+              className="px-3 py-2 rounded-md bg-opacity-50 bg-white backdrop-blur shadow-md"
+              value={position}
               onChange={(e) => {
                 setPosition(e.target.value);
               }}
@@ -107,8 +124,8 @@ export default function TheFam() {
             <input
               type="text"
               placeholder="Search by Additional Duties"
-              className="px-3 py-2 mr-9 rounded-t-md rounded-bl-none md:rounded-tr-none md:rounded-l-md bg-opacity-50 bg-white backdrop-blur"
-              defaultValue={additionalDuties}
+              className="px-3 py-2 rounded-md bg-opacity-50 bg-white backdrop-blur shadow-md"
+              value={additionalDuties}
               onChange={(e) => {
                 setAdditionalDuties(e.target.value);
               }}
@@ -116,8 +133,8 @@ export default function TheFam() {
             <input
               type="text"
               placeholder="Search by Joined"
-              className="px-3 py-2 mr-9 rounded-t-md rounded-bl-none md:rounded-tr-none md:rounded-l-md bg-opacity-50 bg-white backdrop-blur"
-              defaultValue={joined}
+              className="px-3 py-2 rounded-md bg-opacity-50 bg-white backdrop-blur shadow-md"
+              value={joined}
               onChange={(e) => {
                 setJoined(e.target.value);
               }}
@@ -125,8 +142,8 @@ export default function TheFam() {
             <input
               type="text"
               placeholder="Search by Retirement"
-              className="px-3 py-2 mr-9 rounded-t-md rounded-bl-none md:rounded-tr-none md:rounded-l-md bg-opacity-50 bg-white backdrop-blur"
-              defaultValue={retirement}
+              className="px-3 py-2 rounded-md bg-opacity-50 bg-white backdrop-blur shadow-md"
+              value={retirement}
               onChange={(e) => {
                 setRetirement(e.target.value);
               }}
@@ -136,10 +153,19 @@ export default function TheFam() {
         <div className="mt-16 flex max-w-5xl flex-row flex-wrap justify-center gap-4">
           {profiles.length > 0 ? (
             profiles.map((profile, i) => (
-              <ProfileCard key={i} profile={{...profile, namaLengkap: profile.name, posisi: profile.position }} />
+              <ProfileCard
+                key={i}
+                profile={{
+                  ...profile,
+                  namaLengkap: profile.name,
+                  posisi: profile.position,
+                }}
+              />
             ))
           ) : (
-            <p className="text-center text-lg">No profiles found. Please try a different search.</p>
+            <p className="text-center text-lg">
+              No profiles found. Please try a different search.
+            </p>
           )}
         </div>
       </div>

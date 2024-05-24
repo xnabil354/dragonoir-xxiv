@@ -1,12 +1,31 @@
 "use client";
 
-import { Carousel } from "@mantine/carousel";
-import { MyCarousel } from "@/components/MyCarousel";
+import AwesomeSlider from 'react-awesome-slider';
+import 'react-awesome-slider/dist/styles.css';
+import 'react-awesome-slider/dist/custom-animations/cube-animation.css';
 import Link from "next/link";
 import { FaArrowDown } from "react-icons/fa";
 import Chat from "./Chat";
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const images = [
+    "/assets/images/gallery/black-white/1.jpg",
+    "/assets/images/gallery/black-white/2.jpg",
+    "/assets/images/gallery/black-white/3.jpg",
+    "/assets/images/gallery/black-white/4.jpg",
+    "/assets/images/gallery/black-white/5.jpg"
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3000); // Change image every 3 seconds
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, []);
+
   return (
     <div>
       <div className="relative">
@@ -49,33 +68,14 @@ Gue juga pengen ngucapin terima kasih yang sebesar-besarnya buat semua pihak yan
             OUR MOMENTS
           </h1>
           <div className="bg-neutral-200/75 border-white border-2 border-opacity-30 rounded-2xl md:px-4">
-            <Carousel
-              withIndicators
-              slideGap="xl"
-              className="mx-4 min-[500px]:max-w-sm md:max-w-3xl"
-              loop
+            <AwesomeSlider
+              animation="cubeAnimation"
+              selected={currentIndex}
             >
-              <MyCarousel
-                variant="image"
-                src="/assets/images/gallery/black-white/1.jpg"
-              />
-              <MyCarousel
-                variant="image"
-                src="/assets/images/gallery/black-white/2.jpg"
-              />
-              <MyCarousel
-                variant="image"
-                src="/assets/images/gallery/black-white/3.jpg"
-              />
-              <MyCarousel
-                variant="image"
-                src="/assets/images/gallery/black-white/4.jpg"
-              />
-              <MyCarousel
-                variant="image"
-                src="/assets/images/gallery/black-white/5.jpg"
-              />
-            </Carousel>
+              {images.map((src, index) => (
+                <div key={index} data-src={src} />
+              ))}
+            </AwesomeSlider>
           </div>
         </div>
       </div>

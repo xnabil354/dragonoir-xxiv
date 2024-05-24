@@ -135,7 +135,7 @@ const FormField: React.FC<FormFieldProps> = ({
         name={name}
         value={value}
         onChange={onChange}
-        className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+        className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-gradient-to-r from-gray-100 to-gray-200"
         required
       />
     ) : (
@@ -144,7 +144,7 @@ const FormField: React.FC<FormFieldProps> = ({
         name={name}
         value={value}
         onChange={onChange}
-        className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+        className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-gradient-to-r from-gray-100 to-gray-200"
         required
       />
     )}
