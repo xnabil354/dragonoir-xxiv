@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Swal from 'sweetalert2';
-import { RingLoader } from 'react-spinners';
+import { useState } from "react";
+import Swal from "sweetalert2";
+import { RingLoader } from "react-spinners";
 
 interface FormData {
   name: string;
@@ -12,23 +12,25 @@ interface FormData {
 }
 
 const initialFormData: FormData = {
-  name: '',
-  subject: '',
-  kelas: '',
-  message: '',
+  name: "",
+  subject: "",
+  kelas: "",
+  message: "",
 };
 
-const BOT_TOKEN = '7190175151:AAHaGL4M2Q71UB93NPUJ0sOAy29WSUjp1w4';
-const CHAT_ID = '1365766425';
+const BOT_TOKEN = "7190175151:AAHaGL4M2Q71UB93NPUJ0sOAy29WSUjp1w4";
+const CHAT_ID = "1365766425";
 const TELEGRAM_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
 const ContactForm = () => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prevFormData => ({ ...prevFormData, [name]: value }));
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,14 +47,14 @@ const ContactForm = () => {
 *Message*:${formData.message}`;
 
       await fetch(TELEGRAM_URL, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           chat_id: CHAT_ID,
           text: message,
-          parse_mode: 'Markdown',
+          parse_mode: "Markdown",
         }),
       });
 
@@ -60,16 +62,19 @@ const ContactForm = () => {
       setIsLoading(false);
 
       Swal.fire({
-        title: 'Success!',
-        text: 'Your message has been sent successfully, Thank You!.',
-        icon: 'success',
-        confirmButtonText: 'OK',
+        title: "Success!",
+        text: "Your message has been sent successfully, Thank You!.",
+        icon: "success",
+        confirmButtonText: "OK",
       });
     }, 2000);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-xl mx-auto p-6 shadow-md rounded-lg space-y-4"
+    >
       <FormField
         label="Name"
         name="name"
@@ -97,10 +102,10 @@ const ContactForm = () => {
       />
       <button
         type="submit"
-        className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center font-mono"
+        className="w-full py-3 rounded-lg transition-all duration-300 flex items-center justify-center font-mono bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg hover:shadow-xl hover:from-purple-600 hover:to-blue-500"
         disabled={isLoading}
       >
-        {isLoading ? <RingLoader size={30} color="#ffffff" /> : 'Send Now!'}
+        {isLoading ? <RingLoader size={30} color="#ffffff" /> : "Send Now!"}
       </button>
     </form>
   );
@@ -110,11 +115,19 @@ interface FormFieldProps {
   label: string;
   name: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   isTextarea?: boolean;
 }
 
-const FormField: React.FC<FormFieldProps> = ({ label, name, value, onChange, isTextarea = false }) => (
+const FormField: React.FC<FormFieldProps> = ({
+  label,
+  name,
+  value,
+  onChange,
+  isTextarea = false,
+}) => (
   <div>
     <label className="block text-gray-700 font-mono">{label}</label>
     {isTextarea ? (
