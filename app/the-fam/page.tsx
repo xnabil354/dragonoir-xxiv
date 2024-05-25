@@ -6,6 +6,17 @@ import names from "../../data/name-major.json";
 import images from "../../data/teachers_images.json";
 import ProfileCard from "@/components/ProfileCardTeacher";
 
+type Profile = {
+  id: string;
+  name: string;
+  education: string;
+  position: string;
+  additional_duties: string;
+  joined: string;
+  retirement: string;
+  imageUrl?: string | null;
+};
+
 export default function TheFam() {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -13,70 +24,43 @@ export default function TheFam() {
     setSearchTerm(e.target.value);
   };
 
+  const getProfileWithImage = (profile: Profile) => {
+    const image = images.find((img) => img.id === profile.id);
+    return { ...profile, imageUrl: image ? image.url : null };
+  };
+
+  const matchesSearchTerm = (profile: Profile, searchLower: string) => {
+    const fieldsToSearch = [
+      profile.id, profile.name, profile.education, profile.position, 
+      profile.additional_duties, profile.joined, profile.retirement
+    ];
+
+    return fieldsToSearch.some(field => field.toLowerCase().includes(searchLower));
+  };
+
   const profiles = names
-    .map((profile) => {
-      const image = images.find((img) => img.id === profile.id);
-      return { ...profile, imageUrl: image ? image.url : null };
-    })
-    .filter((c) => {
-      const searchLower = searchTerm.toLowerCase();
-      return (
-        (searchTerm ? c.id.toLowerCase().includes(searchLower) : true) ||
-        (searchTerm ? c.education.toLowerCase().includes(searchLower) : true) ||
-        (searchTerm ? c.position.toLowerCase().includes(searchLower) : true) ||
-        (searchTerm
-          ? c.additional_duties.toLowerCase().includes(searchLower)
-          : true) ||
-        (searchTerm ? c.joined.toLowerCase().includes(searchLower) : true) ||
-        (searchTerm ? c.retirement.toLowerCase().includes(searchLower) : true)
-      );
-    });
+    .map(getProfileWithImage)
+    .filter(profile => !searchTerm || matchesSearchTerm(profile, searchTerm.toLowerCase()));
+
+  const renderImage = (src: string, alt: string, position: string) => (
+    <Image
+      src={src}
+      alt={alt}
+      width={180}
+      height={180}
+      className={`absolute ${position}`}
+    />
+  );
 
   return (
     <div className="mt-40">
       <div className="relative w-full min-[400px]:w-screen z-0">
-        <Image
-          src={"/assets/elements/the-fam/1.png"}
-          alt={"1"}
-          width={180}
-          height={180}
-          className="absolute top-0 left-0"
-        />
-        <Image
-          src={"/assets/elements/the-fam/2.png"}
-          alt={"1"}
-          width={180}
-          height={180}
-          className="absolute top-[50vh] left-0"
-        />
-        <Image
-          src={"/assets/elements/the-fam/3.png"}
-          alt={"1"}
-          width={180}
-          height={180}
-          className="absolute top-[200vh] left-0"
-        />
-        <Image
-          src={"/assets/elements/the-fam/4.png"}
-          alt={"1"}
-          width={180}
-          height={180}
-          className="absolute top-0 right-0"
-        />
-        <Image
-          src={"/assets/elements/the-fam/5.png"}
-          alt={"1"}
-          width={180}
-          height={180}
-          className="absolute top-[50vh] right-0"
-        />
-        <Image
-          src={"/assets/elements/the-fam/6.png"}
-          alt={"1"}
-          width={180}
-          height={180}
-          className="absolute top-[200vh] right-0"
-        />
+        {renderImage("/assets/elements/the-fam/1.png", "decorative", "top-0 left-0")}
+        {renderImage("/assets/elements/the-fam/2.png", "decorative", "top-[50vh] left-0")}
+        {renderImage("/assets/elements/the-fam/3.png", "decorative", "top-[200vh] left-0")}
+        {renderImage("/assets/elements/the-fam/4.png", "decorative", "top-0 right-0")}
+        {renderImage("/assets/elements/the-fam/5.png", "decorative", "top-[50vh] right-0")}
+        {renderImage("/assets/elements/the-fam/6.png", "decorative", "top-[200vh] right-0")}
       </div>
       <div className="flex flex-col items-center px-6">
         <div className="flex flex-col items-center">
@@ -86,7 +70,7 @@ export default function TheFam() {
           <div className="flex items-center w-full max-w-xl bg-white rounded-md shadow-md overflow-hidden">
             <input
               type="text"
-              placeholder="Search by ID, Education, Position, Additional Duties, Joined, Retirement"
+              placeholder="Search Your Teacher/Staff"
               className="flex-grow px-4 py-2"
               value={searchTerm}
               onChange={handleInputChange}
