@@ -1,46 +1,36 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import names from "../../data/name-major.json";
 import images from "../../data/teachers_images.json";
 import ProfileCard from "@/components/ProfileCardTeacher";
 
 export default function TheFam() {
-  const [id, setId] = useState("");
-  const [education, setEducation] = useState("");
-  const [position, setPosition] = useState("");
-  const [additionalDuties, setAdditionalDuties] = useState("");
-  const [joined, setJoined] = useState("");
-  const [retirement, setRetirement] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Gabungkan data images dengan profiles
+  const handleInputChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+    setSearchTerm(e.target.value);
+  };
+
   const profiles = names
     .map((profile) => {
       const image = images.find((img) => img.id === profile.id);
       return { ...profile, imageUrl: image ? image.url : null };
     })
-    .filter(
-      (c) =>
-        (id ? c.id.toLowerCase().includes(id.toLowerCase()) : true) &&
-        (education
-          ? c.education.toLowerCase().includes(education.toLowerCase())
-          : true) &&
-        (position
-          ? c.position.toLowerCase().includes(position.toLowerCase())
-          : true) &&
-        (additionalDuties
-          ? c.additional_duties
-              .toLowerCase()
-              .includes(additionalDuties.toLowerCase())
-          : true) &&
-        (joined
-          ? c.joined.toLowerCase().includes(joined.toLowerCase())
-          : true) &&
-        (retirement
-          ? c.retirement.toLowerCase().includes(retirement.toLowerCase())
-          : true)
-    );
+    .filter((c) => {
+      const searchLower = searchTerm.toLowerCase();
+      return (
+        (searchTerm ? c.id.toLowerCase().includes(searchLower) : true) ||
+        (searchTerm ? c.education.toLowerCase().includes(searchLower) : true) ||
+        (searchTerm ? c.position.toLowerCase().includes(searchLower) : true) ||
+        (searchTerm
+          ? c.additional_duties.toLowerCase().includes(searchLower)
+          : true) ||
+        (searchTerm ? c.joined.toLowerCase().includes(searchLower) : true) ||
+        (searchTerm ? c.retirement.toLowerCase().includes(searchLower) : true)
+      );
+    });
 
   return (
     <div className="mt-40">
@@ -93,61 +83,30 @@ export default function TheFam() {
           <h1 className="z-10 text-7xl font-mono text-center mb-8">
             Meet Our Staff & Teachers!
           </h1>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+          <div className="flex items-center w-full max-w-xl bg-white rounded-md shadow-md overflow-hidden">
             <input
               type="text"
-              placeholder="Search by ID"
-              className="px-3 py-2 rounded-md bg-opacity-50 bg-white backdrop-blur shadow-md"
-              value={id}
-              onChange={(e) => {
-                setId(e.target.value);
-              }}
+              placeholder="Search by ID, Education, Position, Additional Duties, Joined, Retirement"
+              className="flex-grow px-4 py-2"
+              value={searchTerm}
+              onChange={handleInputChange}
             />
-            <input
-              type="text"
-              placeholder="Search by Education"
-              className="px-3 py-2 rounded-md bg-opacity-50 bg-white backdrop-blur shadow-md"
-              value={education}
-              onChange={(e) => {
-                setEducation(e.target.value);
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Search by Position"
-              className="px-3 py-2 rounded-md bg-opacity-50 bg-white backdrop-blur shadow-md"
-              value={position}
-              onChange={(e) => {
-                setPosition(e.target.value);
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Search by Additional Duties"
-              className="px-3 py-2 rounded-md bg-opacity-50 bg-white backdrop-blur shadow-md"
-              value={additionalDuties}
-              onChange={(e) => {
-                setAdditionalDuties(e.target.value);
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Search by Joined"
-              className="px-3 py-2 rounded-md bg-opacity-50 bg-white backdrop-blur shadow-md"
-              value={joined}
-              onChange={(e) => {
-                setJoined(e.target.value);
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Search by Retirement"
-              className="px-3 py-2 rounded-md bg-opacity-50 bg-white backdrop-blur shadow-md"
-              value={retirement}
-              onChange={(e) => {
-                setRetirement(e.target.value);
-              }}
-            />
+            <div className="px-4 py-2 bg-gray-200">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
           </div>
         </div>
         <div className="mt-16 flex max-w-5xl flex-row flex-wrap justify-center gap-4">
