@@ -19,6 +19,7 @@ const clashDisplay = localFont({
 });
 
 export const metadata: Metadata = {
+  manifest: "/manifest .json",
   title: "Dragonoir XXIV",
   description: "Website Angkatan XXIV Made By Dragonoir XXIV",
 };
@@ -33,6 +34,13 @@ export default function RootLayout({
       lang="en"
       className={`scroll-smooth ${clashDisplay.variable} ${spaceGrotesk.variable}`}
     >
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png" />
+        <meta name="theme-color" content="#000000" />
+      </head>
       <body>
         <MantineProvider>
           <div className='min-h-screen bgMesh relative before:content-[""] before:-z-999 before:absolute before:w-full before:h-full before:bg-[#ffffff86] before:backdrop-blur-md'>
