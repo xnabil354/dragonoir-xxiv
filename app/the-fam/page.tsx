@@ -46,7 +46,7 @@ export default function TheFam() {
     <Image
       src={src}
       alt={alt}
-      width={180}
+      width={150}
       height={180}
       className={`absolute ${position}`}
     />
