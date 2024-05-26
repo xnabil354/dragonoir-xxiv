@@ -1,3 +1,4 @@
+import React from 'react';
 import ProfileCard from "@/components/ProfileCardAngkatan";
 
 export interface DivisionProps {
