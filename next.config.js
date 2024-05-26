@@ -16,6 +16,15 @@ const nextConfig = {
   images: {
     domains: ['sman15jkt.sch.id'],
   },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        fs: false,
+        module: false,
+      };
+    }
+    return config;
+  },
 };
 
 module.exports = withPWA(nextConfig);
