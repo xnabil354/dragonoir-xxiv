@@ -6,6 +6,8 @@ const withPWA = require('@ducanh2912/next-pwa').default({
   aggressiveFrontEndNav: true,
   reloadOnOnlineNav: true,
   swcMinify: true,
+  register: true,
+  skipWaiting: true,
   disable: false,
   workboxOptions: {
     disableDevLogs: true,

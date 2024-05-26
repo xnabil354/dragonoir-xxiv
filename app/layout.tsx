@@ -19,7 +19,7 @@ const clashDisplay = localFont({
 });
 
 export const metadata: Metadata = {
-  manifest: "/manifest .json",
+  manifest: "/manifest.json",
   title: "Dragonoir XXIV",
   description: "Website Angkatan XXIV Made By Dragonoir XXIV",
 };
