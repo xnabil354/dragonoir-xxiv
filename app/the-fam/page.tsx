@@ -20,7 +20,7 @@ type Profile = {
 export default function TheFam() {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleInputChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+  const handleInputChange = (e: { target: { value: SetStateAction<string> } }) => {
     setSearchTerm(e.target.value);
   };
 
@@ -31,7 +31,7 @@ export default function TheFam() {
 
   const matchesSearchTerm = (profile: Profile, searchLower: string) => {
     const fieldsToSearch = [
-      profile.id, profile.name, profile.education, profile.position, 
+      profile.id, profile.name, profile.education, profile.position,
       profile.additional_duties, profile.joined, profile.retirement
     ];
 
@@ -47,7 +47,7 @@ export default function TheFam() {
       src={src}
       alt={alt}
       width={150}
-      height={180}
+      height={150}
       className={`absolute ${position}`}
     />
   );
@@ -58,13 +58,13 @@ export default function TheFam() {
         {renderImage("/assets/elements/the-fam/1.png", "decorative", "top-0 left-0")}
         {renderImage("/assets/elements/the-fam/2.png", "decorative", "top-[50vh] left-0")}
         {renderImage("/assets/elements/the-fam/3.png", "decorative", "top-[200vh] left-0")}
-        {renderImage("/assets/elements/the-fam/4.png", "decorative", "top-0 right-0")}
+        {renderImage("/assets/elements/the-fam/4.png", "decorative", "top-[20vh] right-0")}
         {renderImage("/assets/elements/the-fam/5.png", "decorative", "top-[50vh] right-0")}
         {renderImage("/assets/elements/the-fam/6.png", "decorative", "top-[200vh] right-0")}
       </div>
       <div className="flex flex-col items-center px-6">
         <div className="flex flex-col items-center">
-          <h1 className="z-10 text-7xl font-mono text-center mb-8">
+          <h1 className="z-10 text-4xl sm:text-5xl lg:text-7xl font-mono text-center mb-8">
             Meet Our Staff & Teachers!
           </h1>
           <div className="flex items-center w-full max-w-xl bg-white rounded-md shadow-md overflow-hidden">
@@ -113,5 +113,5 @@ export default function TheFam() {
         </div>
       </div>
     </div>
-  );
+  )
 }

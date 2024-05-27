@@ -2,13 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
-import { FaInstagram, FaTwitter, FaYoutube, FaTiktok } from "react-icons/fa";
+import React, { useState, useEffect, useCallback } from "react";
+import { FaInstagram } from "react-icons/fa";
 
-export default function Footer() {
+const useDeferredPrompt = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null);
-  const [isAppInstalled, setIsAppInstalled] = useState(false);
-  const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
@@ -16,29 +14,66 @@ export default function Footer() {
       setDeferredPrompt(e);
     };
 
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  return [deferredPrompt, setDeferredPrompt] as const;
+};
+
+const useAppInstalled = () => {
+  const [isAppInstalled, setIsAppInstalled] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
     const handleAppInstalled = () => {
       setIsAppInstalled(true);
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 3000);
     };
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     window.addEventListener("appinstalled", handleAppInstalled);
 
-    // Check if the app is already installed
     if (window.matchMedia('(display-mode: standalone)').matches) {
       setIsAppInstalled(true);
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 3000);
     }
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
       window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
 
-  const handleInstallClick = () => {
+  return { isAppInstalled, showNotification, setShowNotification };
+};
+
+const SocialMediaLinks = () => (
+  <div className="flex space-x-8 text-xl">
+    <Link href="https://www.instagram.com/dragonoir_/">
+      <FaInstagram />
+    </Link>
+  </div>
+);
+
+const InstallButton = ({ handleClick }: { handleClick: () => void }) => (
+  <button
+    onClick={handleClick}
+    className="font-mono text-black px-4 py-2 rounded-lg shadow-md bg-transparent border border-white transition duration-300 hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-500"
+  >
+    Install App Now!
+  </button>
+);
+
+export default function Footer() {
+  const [deferredPrompt, setDeferredPrompt] = useDeferredPrompt();
+  const { isAppInstalled, showNotification, setShowNotification } = useAppInstalled();
+
+  const handleInstallClick = useCallback(() => {
     if (isAppInstalled) {
-      // Show notification if the app is already installed
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 3000);
     } else if (deferredPrompt) {
@@ -51,19 +86,23 @@ export default function Footer() {
         }
         setDeferredPrompt(null);
       });
+    } else {
+      // Show notification if no install prompt is available (app might be already installed)
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 3000);
     }
-  };
+  }, [isAppInstalled, deferredPrompt, setShowNotification]);
 
   return (
     <>
       {showNotification && (
-        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-md">
-          Aplikasi sudah terpasang!
+        <div className="fixed top-20 right-10 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50">
+          App Installed!
         </div>
       )}
       <nav className="text-neutral-800 mx-5 my-8 backdrop-blur brightness-105 bg-gradient-to-br from-red-400/10 via-blue-400/10 to-cyan-400/10 z-50 border-white border-2 border-opacity-30 rounded-3xl shadow-xl px-10 py-10 lg:px-20 lg:py-20 flex flex-col lg:flex-row space-y-16 lg:space-y-0">
         <div className="grow flex justify-evenly lg:justify-start space-x-5 lg:space-x-10">
-          <div className="">
+          <div>
             <Link href="/">
               <Image src="/logo.png" alt="Logo" width={150} height={150} />
             </Link>
@@ -77,17 +116,8 @@ export default function Footer() {
         </div>
         <div className="grow flex flex-col lg:flex-row justify-evenly lg:justify-end items-center lg:space-x-10 space-y-4 lg:space-y-0">
           <div className="font-bold">Find Us on Social Media!</div>
-          <div className="flex space-x-8 text-xl">
-            <Link href="https://www.instagram.com/dragonoir_/">
-              <FaInstagram />
-            </Link>
-          </div>
-          <button
-            onClick={handleInstallClick}
-            className="font-mono text-black px-4 py-2 rounded-lg shadow-md bg-transparent border border-white transition duration-300 hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-500"
-          >
-            Pasang Dragonoir di Perangkat
-          </button>
+          <SocialMediaLinks />
+          <InstallButton handleClick={handleInstallClick} />
         </div>
       </nav>
     </>
