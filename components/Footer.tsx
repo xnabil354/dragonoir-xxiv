@@ -37,16 +37,22 @@ const useAppInstalled = () => {
 
     window.addEventListener("appinstalled", handleAppInstalled);
 
+    // Check if the app is already installed in standalone mode (for mobile)
     if (window.matchMedia('(display-mode: standalone)').matches) {
       setIsAppInstalled(true);
-      setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 3000);
     }
 
     return () => {
       window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
+
+  useEffect(() => {
+    if (isAppInstalled) {
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 3000);
+    }
+  }, [isAppInstalled]);
 
   return { isAppInstalled, showNotification, setShowNotification };
 };
@@ -87,9 +93,7 @@ export default function Footer() {
         setDeferredPrompt(null);
       });
     } else {
-      // Show notification if no install prompt is available (app might be already installed)
-      setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 3000);
+      setShowNotification(false); // Ensure not to show false notifications
     }
   }, [isAppInstalled, deferredPrompt, setShowNotification]);
 

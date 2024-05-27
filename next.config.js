@@ -16,7 +16,14 @@ const withPWA = require('@ducanh2912/next-pwa').default({
 
 const nextConfig = {
   images: {
-    domains: ['sman15jkt.sch.id'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'sman15jkt.sch.id',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {

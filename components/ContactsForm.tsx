@@ -37,37 +37,27 @@ const ContactForm = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    setTimeout(async () => {
-      const message = `
-*New Contact Form Submission Dragonoir* 📬
+    const message = formatMessage(formData);
 
-*Name*: ${formData.name}
-*Subject*: ${formData.subject}
-*Class*: ${formData.kelas}
-*Message*:${formData.message}`;
-
-      await fetch(TELEGRAM_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: message,
-          parse_mode: "Markdown",
-        }),
-      });
-
+    try {
+      await sendMessageToTelegram(message);
       setFormData(initialFormData);
-      setIsLoading(false);
-
       Swal.fire({
         title: "Success!",
         text: "Your message has been sent successfully, Thank You!.",
         icon: "success",
         confirmButtonText: "OK",
       });
-    }, 2000);
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "There was an error sending your message. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -75,31 +65,16 @@ const ContactForm = () => {
       onSubmit={handleSubmit}
       className="max-w-xl mx-auto p-6 shadow-md rounded-lg space-y-4"
     >
-      <FormField
-        label="Name"
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-      />
-      <FormField
-        label="Subject"
-        name="subject"
-        value={formData.subject}
-        onChange={handleChange}
-      />
-      <FormField
-        label="Class"
-        name="kelas"
-        value={formData.kelas}
-        onChange={handleChange}
-      />
-      <FormField
-        label="Message"
-        name="message"
-        value={formData.message}
-        onChange={handleChange}
-        isTextarea
-      />
+      {["name", "subject", "kelas", "message"].map((field) => (
+        <FormField
+          key={field}
+          label={capitalizeFirstLetter(field)}
+          name={field}
+          value={formData[field as keyof FormData]}
+          onChange={handleChange}
+          isTextarea={field === "message"}
+        />
+      ))}
       <button
         type="submit"
         className="w-full py-3 rounded-lg transition-all duration-300 flex items-center justify-center font-mono bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg hover:shadow-xl hover:from-purple-600 hover:to-blue-500"
@@ -110,6 +85,32 @@ const ContactForm = () => {
     </form>
   );
 };
+
+const formatMessage = (formData: FormData) => `
+*New Contact Form Submission Dragonoir* 📬
+
+*Name*: ${formData.name}
+*Subject*: ${formData.subject}
+*Class*: ${formData.kelas}
+*Message*: ${formData.message}
+`;
+
+const sendMessageToTelegram = async (message: string) => {
+  await fetch(TELEGRAM_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      chat_id: CHAT_ID,
+      text: message,
+      parse_mode: "Markdown",
+    }),
+  });
+};
+
+const capitalizeFirstLetter = (string: string) =>
+  string.charAt(0).toUpperCase() + string.slice(1);
 
 interface FormFieldProps {
   label: string;
