@@ -75,7 +75,7 @@ export default function Footer() {
               onClick={handleInstallClick}
               className="font-mono text-black px-4 py-2 rounded-lg shadow-md bg-transparent border border-white transition duration-300 hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-500"
             >
-              Pasang Dragonoir di Perangkat
+              Download App Now!
             </button>
           )}
         </div>
