@@ -60,6 +60,7 @@ export default function Footer() {
             <Link href="/the-fam">The Fam!</Link>
             <Link href="/the-team">Meet The Team</Link>
             <Link href="/gallery">Gallery</Link>
+            <Link href="/graduation">Graduation</Link>
             <Link href="/contact">Contact Us</Link>
           </div>
         </div>

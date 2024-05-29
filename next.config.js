@@ -1,5 +1,3 @@
-/** @type {import('next').NextConfig} */
-
 const withPWA = require('@ducanh2912/next-pwa').default({
   dest: 'public',
   cacheOnFrontEndNav: true,
@@ -31,7 +29,15 @@ const nextConfig = {
         fs: false,
         module: false,
       };
+    } else {
+      config.externals = [
+        ...config.externals,
+        {
+          canvas: 'commonjs canvas',
+        },
+      ];
     }
+    config.resolve.alias.canvas = false;
     return config;
   },
 };
