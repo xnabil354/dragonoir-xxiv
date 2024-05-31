@@ -65,7 +65,7 @@ export default function TheFam() {
       <div className="flex flex-col items-center px-6">
         <div className="flex flex-col items-center">
           <h1 className="z-10 text-4xl sm:text-5xl lg:text-7xl font-mono text-center mb-8">
-            Meet Our sdsd & Teachers!
+            Meet Our Teachers & Staff
           </h1>
           <div className="flex items-center w-full max-w-xl bg-white rounded-md shadow-md overflow-hidden">
             <input

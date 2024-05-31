@@ -113,6 +113,13 @@ export default function Navbar() {
           Gallery
         </NavLink>
         <NavLink
+            isActive={pathname === "/graduation/"}
+            href="/graduation"
+            onClick={() => setOpen(false)}
+          >
+            Graduation
+          </NavLink>
+        <NavLink
           isActive={pathname === "/contact/"}
           href="/contact"
           onClick={() => setOpen(false)}
