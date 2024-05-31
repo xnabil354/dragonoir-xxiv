@@ -12,6 +12,9 @@ const withPWA = require('@ducanh2912/next-pwa').default({
   },
 });
 
+// Try importing withNx differently
+const { withNx } = require('@nrwl/next/plugins/with-nx');
+
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -42,4 +45,5 @@ const nextConfig = {
   },
 };
 
-module.exports = withPWA(nextConfig);
+// Use the composition function to combine the plugins
+module.exports = withPWA(withNx(nextConfig));

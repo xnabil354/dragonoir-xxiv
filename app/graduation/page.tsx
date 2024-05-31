@@ -10,10 +10,15 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1 className="z-10 text-7xl font-mono text-center mb-20">
+        <h1 className="z-10 text-4xl font-mono text-center mb-20">
           Graduation
         </h1>
-        <div className="text-center">
+        <div className="flex justify-center items-center flex-wrap text-center">
+          <img className="mb-5 mx-20 mr-20" src="/graduation-image-3.jpg" alt="Graduation Image 3" width="300" height="200" />
+          <img className="mb-5 mx-20 mr-20" src="/graduation-image-2.jpg" alt="Graduation Image 2" width="300" height="200" />
+          <img className="mb-5 mx-20 mr-20" src="/graduation-image.jpg" alt="Graduation Image" width="300" height="200" />
+        </div>
+        <div className="text-center mt-10">
           <a 
             href="/UNDANGAN-GRADUATION-2024.pdf" 
             target="_blank" 

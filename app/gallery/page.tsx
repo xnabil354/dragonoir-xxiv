@@ -7,7 +7,7 @@ import React from "react";
 export default function Gallery() {
   return (
     <div className="mt-40 px-3">
-      <h1 className="z-10 text-7xl font-mono text-center mb-20">
+      <h1 className="z-10 text-4xl font-mono text-center mb-20">
         Our Moments
       </h1>
       <div className="flex flex-col space-y-20">
