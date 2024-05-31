@@ -7,11 +7,11 @@ const Home: NextPage = () => {
     <div className="mt-40 px-3">
       <Head>
         <title>Contact Form</title>
-        <meta name="description" content="Contact form using Next.js, TypeScript, and TailwindCSS" />
+        <meta name="description" content="Contact form Dragonoir XXIV" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-      <h1 className="z-10 text-7xl font-mono text-center mb-20">
+      <h1 className="z-10 text-4xl font-mono text-center mb-20">
         Contact Us
       </h1>
         <ContactForm />
