@@ -22,6 +22,7 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   title: "Dragonoir XXIV",
   description: "Website Angkatan XXIV Made By Dragonoir XXIV",
+  icons: "/icon-512x512.png",
 };
 
 const HeadContent = () => (
@@ -29,7 +30,7 @@ const HeadContent = () => (
     <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" sizes="192x192" href="/icon-192x192.png" />
     <link rel="apple-touch-icon" sizes="512x512" href="/icon-512x512.png" />
     <meta name="theme-color" content="#000000" />
