@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { RingLoader } from "react-spinners";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 interface FormData {
   name: string;
@@ -22,10 +21,8 @@ const initialFormData: FormData = {
 const BOT_TOKEN = "7190175151:AAHaGL4M2Q71UB93NPUJ0sOAy29WSUjp1w4";
 const CHAT_ID = "1365766425";
 const TELEGRAM_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-const RECAPTCHA_SECRET_KEY = '6LcyLvopAAAAALZbkPi9RKYUBKFbxH1mOgWfMSXS';
 
 const ContactForm = () => {
-  const { executeRecaptcha } = useGoogleReCaptcha();
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -40,45 +37,16 @@ const ContactForm = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    if (!executeRecaptcha) {
-      setIsLoading(false);
+    try {
+      const message = formatMessage(formData);
+      await sendMessageToTelegram(message);
+      setFormData(initialFormData);
       Swal.fire({
-        title: "Error!",
-        text: "reCAPTCHA not ready. Please try again later.",
-        icon: "error",
+        title: "Success!",
+        text: "Your message has been sent successfully, Thank You!.",
+        icon: "success",
         confirmButtonText: "OK",
       });
-      return;
-    }
-
-    try {
-      const recaptchaToken = await executeRecaptcha("contact_form_submit");
-      console.log('reCAPTCHA token:', recaptchaToken);
-
-      const recaptchaResponse = await fetch(`https://www.google.com/recaptcha/api/siteverify`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `secret=${RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`
-      });
-
-      const recaptchaData = await recaptchaResponse.json();
-      console.log('reCAPTCHA verification response:', recaptchaData);
-
-      if (recaptchaData.success) {
-        const message = formatMessage(formData);
-        await sendMessageToTelegram(message);
-        setFormData(initialFormData);
-        Swal.fire({
-          title: "Success!",
-          text: "Your message has been sent successfully, Thank You!.",
-          icon: "success",
-          confirmButtonText: "OK",
-        });
-      } else {
-        throw new Error("reCAPTCHA validation failed");
-      }
     } catch (error) {
       console.error("Error submitting the form:", error);
       Swal.fire({
