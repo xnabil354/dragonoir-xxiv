@@ -3,7 +3,7 @@ import '../styles/globals.css';
 
 const MyApp = ({ Component, pageProps }: any) => {
   return (
-    <ReCaptchaProvider reCaptchaKey="your_site_key">
+    <ReCaptchaProvider reCaptchaKey="6LcyLvopAAAAADIFCeDJ_rnj2_z4Dz_IR0XDaMi7">
       <Component {...pageProps} />
     </ReCaptchaProvider>
   );
