@@ -52,8 +52,7 @@ const ContactForm = () => {
 
     try {
       const recaptchaToken = await executeRecaptcha("contact_form_submit");
-
-      const message = formatMessage(formData);
+      console.log('reCAPTCHA token:', recaptchaToken);
 
       const response = await fetch("/api/verify-recaptcha", {
         method: "POST",
@@ -64,8 +63,10 @@ const ContactForm = () => {
       });
 
       const data = await response.json();
+      console.log('reCAPTCHA verification response:', data);
 
       if (data.success) {
+        const message = formatMessage(formData);
         await sendMessageToTelegram(message);
         setFormData(initialFormData);
         Swal.fire({
@@ -78,6 +79,7 @@ const ContactForm = () => {
         throw new Error("reCAPTCHA validation failed");
       }
     } catch (error) {
+      console.error("Error submitting the form:", error);
       Swal.fire({
         title: "Error!",
         text: "There was an error sending your message. Please try again.",
