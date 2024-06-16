@@ -19,8 +19,8 @@ const initialFormData: FormData = {
   message: "",
 };
 
-const BOT_TOKEN = "YOUR_BOT_TOKEN";
-const CHAT_ID = "YOUR_CHAT_ID";
+const BOT_TOKEN = "7190175151:AAHaGL4M2Q71UB93NPUJ0sOAy29WSUjp1w4";
+const CHAT_ID = "1365766425";
 const TELEGRAM_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
 const ContactForm = () => {
