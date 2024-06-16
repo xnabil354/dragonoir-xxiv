@@ -19,7 +19,7 @@ const clashDisplay = localFont({
   variable: "--font-clash-display",
 });
 
-const RECAPTCHA_SITE_KEY = 'YOUR_SITE_KEY';
+const RECAPTCHA_SITE_KEY = '6LcyLvopAAAAADIFCeDJ_rnj2_z4Dz_IR0XDaMi7';
 
 export const metadata: Metadata = {
   manifest: "/manifest.json",
