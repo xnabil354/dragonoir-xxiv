@@ -45,6 +45,7 @@ const HeadContent = () => (
       }}
     />
     {/* End Google Tag Manager */}
+    
   </head>
 );
 

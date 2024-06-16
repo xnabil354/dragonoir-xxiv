@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { RingLoader } from "react-spinners";
+import { useReCaptcha } from 'next-recaptcha-v3';
 
 interface FormData {
   name: string;
@@ -18,13 +19,14 @@ const initialFormData: FormData = {
   message: "",
 };
 
-const BOT_TOKEN = "7190175151:AAHaGL4M2Q71UB93NPUJ0sOAy29WSUjp1w4";
-const CHAT_ID = "1365766425";
+const BOT_TOKEN = "your_bot_token";
+const CHAT_ID = "your_chat_id";
 const TELEGRAM_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
 const ContactForm = () => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
+  const { executeRecaptcha } = useReCaptcha();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -37,27 +39,54 @@ const ContactForm = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const message = formatMessage(formData);
+    if (!executeRecaptcha) {
+      console.log("Execute recaptcha not yet available");
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      await sendMessageToTelegram(message);
-      setFormData(initialFormData);
-      Swal.fire({
-        title: "Success!",
-        text: "Your message has been sent successfully, Thank You!.",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
-    } catch (error) {
+      const token = await executeRecaptcha('submit');
+      const message = formatMessage(formData);
+
+      const isHuman = await verifyRecaptchaToken(token);
+
+      if (isHuman) {
+        await sendMessageToTelegram(message);
+        setFormData(initialFormData);
+        Swal.fire({
+          title: "Success!",
+          text: "Your message has been sent successfully, Thank You!.",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+      } else {
+        throw new Error("reCAPTCHA verification failed. Please try again.");
+      }
+    } catch (error: unknown) {
+      const customError = error as Error;
       Swal.fire({
         title: "Error!",
-        text: "There was an error sending your message. Please try again.",
+        text: customError.message || "There was an error sending your message. Please try again.",
         icon: "error",
         confirmButtonText: "OK",
       });
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const verifyRecaptchaToken = async (token: string) => {
+    const response = await fetch("/api/verify-recaptcha", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token }),
+    });
+
+    const data = await response.json();
+    return data.success;
   };
 
   return (
@@ -87,7 +116,7 @@ const ContactForm = () => {
 };
 
 const formatMessage = (formData: FormData) => `
-*New Contact Form Submission Dragonoir* 📬
+*New Contact Form Submission* 📬
 
 *Name*: ${formData.name}
 *Subject*: ${formData.subject}

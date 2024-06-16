@@ -11,7 +11,6 @@ import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 export default function Home() {
 
-// Tambahkan di dalam komponen Home
 <NextSeo
   title="Dragonoir XXIV - Perpisahan Kelas 12"
   description="Selamat datang di acara perpisahan kelas 12 Dragonoir XXIV. Nikmati momen-momen terbaik bersama kami."
