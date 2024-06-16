@@ -1,21 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-type Data = {
-  success: boolean;
-};
+const RECAPTCHA_SECRET_KEY = '6LcyLvopAAAAALZbkPi9RKYUBKFbxH1mOgWfMSXS';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  const { token } = req.body;
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { recaptchaToken } = req.body;
 
   const response = await fetch(`https://www.google.com/recaptcha/api/siteverify`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/x-www-form-urlencoded'
     },
-    body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
+    body: `secret=${RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`
   });
 
   const data = await response.json();
@@ -23,6 +18,6 @@ export default async function handler(
   if (data.success) {
     res.status(200).json({ success: true });
   } else {
-    res.status(400).json({ success: false });
+    res.status(400).json({ success: false, error: data['error-codes'] });
   }
 }

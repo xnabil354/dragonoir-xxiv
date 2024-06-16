@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import { RingLoader } from "react-spinners";
-
-declare const grecaptcha: any;
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 interface FormData {
   name: string;
@@ -20,13 +19,12 @@ const initialFormData: FormData = {
   message: "",
 };
 
-const BOT_TOKEN = "your_bot_token";
-const CHAT_ID = "your_chat_id";
+const BOT_TOKEN = "YOUR_BOT_TOKEN";
+const CHAT_ID = "YOUR_CHAT_ID";
 const TELEGRAM_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-const RECAPTCHA_SITE_KEY = "6LcyLvopAAAAADIFCeDJ_rnj2_z4Dz_IR0XDaMi7";
-const RECAPTCHA_SECRET_KEY = "6LcyLvopAAAAALZbkPi9RKYUBKFbxH1mOgWfMSXS";
 
 const ContactForm = () => {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,12 +39,33 @@ const ContactForm = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      const token = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: "submit" });
-      const message = formatMessage(formData);
-      const isHuman = await verifyRecaptchaToken(token);
+    if (!executeRecaptcha) {
+      setIsLoading(false);
+      Swal.fire({
+        title: "Error!",
+        text: "reCAPTCHA not ready. Please try again later.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
 
-      if (isHuman) {
+    try {
+      const recaptchaToken = await executeRecaptcha("contact_form_submit");
+
+      const message = formatMessage(formData);
+
+      const response = await fetch("/api/verify-recaptcha", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ recaptchaToken }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
         await sendMessageToTelegram(message);
         setFormData(initialFormData);
         Swal.fire({
@@ -56,13 +75,12 @@ const ContactForm = () => {
           confirmButtonText: "OK",
         });
       } else {
-        throw new Error("reCAPTCHA verification failed. Please try again.");
+        throw new Error("reCAPTCHA validation failed");
       }
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "There was an error sending your message. Please try again.";
       Swal.fire({
         title: "Error!",
-        text: errorMessage,
+        text: "There was an error sending your message. Please try again.",
         icon: "error",
         confirmButtonText: "OK",
       });
@@ -70,27 +88,6 @@ const ContactForm = () => {
       setIsLoading(false);
     }
   };
-
-  const verifyRecaptchaToken = async (token: string) => {
-    const response = await fetch("/api/verify-recaptcha", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ token }),
-    });
-
-    const data = await response.json();
-    return data.success;
-  };
-
-  useEffect(() => {
-    if (typeof grecaptcha !== "undefined") {
-      grecaptcha.ready(() => {
-        grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: "submit" });
-      });
-    }
-  }, []);
 
   return (
     <form
@@ -119,7 +116,7 @@ const ContactForm = () => {
 };
 
 const formatMessage = (formData: FormData) => `
-*New Contact Form Submission* 📬
+*New Contact Form Submission Dragonoir* 📬
 
 *Name*: ${formData.name}
 *Subject*: ${formData.subject}
