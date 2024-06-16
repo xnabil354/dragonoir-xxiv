@@ -19,9 +19,10 @@ const initialFormData: FormData = {
   message: "",
 };
 
-const BOT_TOKEN = "7190175151:AAHaGL4M2Q71UB93NPUJ0sOAy29WSUjp1w4";
-const CHAT_ID = "1365766425";
+const BOT_TOKEN = "YOUR_BOT_TOKEN";
+const CHAT_ID = "YOUR_CHAT_ID";
 const TELEGRAM_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+const RECAPTCHA_SECRET_KEY = '6LcyLvopAAAAALZbkPi9RKYUBKFbxH1mOgWfMSXS';
 
 const ContactForm = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -54,18 +55,18 @@ const ContactForm = () => {
       const recaptchaToken = await executeRecaptcha("contact_form_submit");
       console.log('reCAPTCHA token:', recaptchaToken);
 
-      const response = await fetch("/api/verify-recaptcha", {
-        method: "POST",
+      const recaptchaResponse = await fetch(`https://www.google.com/recaptcha/api/siteverify`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({ recaptchaToken }),
+        body: `secret=${RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`
       });
 
-      const data = await response.json();
-      console.log('reCAPTCHA verification response:', data);
+      const recaptchaData = await recaptchaResponse.json();
+      console.log('reCAPTCHA verification response:', recaptchaData);
 
-      if (data.success) {
+      if (recaptchaData.success) {
         const message = formatMessage(formData);
         await sendMessageToTelegram(message);
         setFormData(initialFormData);
