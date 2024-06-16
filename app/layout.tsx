@@ -7,6 +7,7 @@ import localFont from "next/font/local";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/carousel/styles.css";
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -17,6 +18,8 @@ const clashDisplay = localFont({
   src: "./ClashDisplay-Medium.woff2",
   variable: "--font-clash-display",
 });
+
+const RECAPTCHA_SITE_KEY = 'YOUR_SITE_KEY';
 
 export const metadata: Metadata = {
   manifest: "/manifest.json",
@@ -45,7 +48,6 @@ const HeadContent = () => (
       }}
     />
     {/* End Google Tag Manager */}
-    
   </head>
 );
 
@@ -81,9 +83,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
         </noscript>
         {/* End Google Tag Manager (noscript) */}
-        <MantineProvider>
-          <LayoutWrapper>{children}</LayoutWrapper>
-        </MantineProvider>
+        <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_SITE_KEY}>
+          <MantineProvider>
+            <LayoutWrapper>{children}</LayoutWrapper>
+          </MantineProvider>
+        </GoogleReCaptchaProvider>
       </body>
     </html>
   );
