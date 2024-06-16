@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { RingLoader } from "react-spinners";
-import { useReCaptcha } from 'next-recaptcha-v3';
+
+declare const grecaptcha: any;
 
 interface FormData {
   name: string;
@@ -22,11 +23,12 @@ const initialFormData: FormData = {
 const BOT_TOKEN = "your_bot_token";
 const CHAT_ID = "your_chat_id";
 const TELEGRAM_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+const RECAPTCHA_SITE_KEY = "6LcyLvopAAAAADIFCeDJ_rnj2_z4Dz_IR0XDaMi7";
+const RECAPTCHA_SECRET_KEY = "6LcyLvopAAAAALZbkPi9RKYUBKFbxH1mOgWfMSXS";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
-  const { executeRecaptcha } = useReCaptcha();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -39,16 +41,9 @@ const ContactForm = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    if (!executeRecaptcha) {
-      console.log("Execute recaptcha not yet available");
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const token = await executeRecaptcha('submit');
+      const token = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: "submit" });
       const message = formatMessage(formData);
-
       const isHuman = await verifyRecaptchaToken(token);
 
       if (isHuman) {
@@ -63,11 +58,11 @@ const ContactForm = () => {
       } else {
         throw new Error("reCAPTCHA verification failed. Please try again.");
       }
-    } catch (error: unknown) {
-      const customError = error as Error;
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "There was an error sending your message. Please try again.";
       Swal.fire({
         title: "Error!",
-        text: customError.message || "There was an error sending your message. Please try again.",
+        text: errorMessage,
         icon: "error",
         confirmButtonText: "OK",
       });
@@ -88,6 +83,14 @@ const ContactForm = () => {
     const data = await response.json();
     return data.success;
   };
+
+  useEffect(() => {
+    if (typeof grecaptcha !== "undefined") {
+      grecaptcha.ready(() => {
+        grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: "submit" });
+      });
+    }
+  }, []);
 
   return (
     <form
