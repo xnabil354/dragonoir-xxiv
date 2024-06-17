@@ -1,4 +1,3 @@
-// app/api/contact/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 
 const RECAPTCHA_SECRET_KEY = "6LcyLvopAAAAALZbkPi9RKYUBKFbxH1mOgWfMSXS";

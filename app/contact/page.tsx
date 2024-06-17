@@ -1,4 +1,3 @@
-// app/contact/page.tsx
 import { NextPage } from 'next';
 import Head from 'next/head';
 import ContactForm from '../../components/ContactsForm';
