@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { RingLoader } from "react-spinners";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 interface FormData {
   name: string;
@@ -18,17 +19,12 @@ const initialFormData: FormData = {
   message: "",
 };
 
-const BOT_TOKEN = "7190175151:AAHaGL4M2Q71UB93NPUJ0sOAy29WSUjp1w4";
-const CHAT_ID = "1365766425";
-const TELEGRAM_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-
 const ContactForm = () => {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
@@ -38,8 +34,17 @@ const ContactForm = () => {
     setIsLoading(true);
 
     try {
+      if (!executeRecaptcha) {
+        throw new Error('reCAPTCHA has not been loaded');
+      }
+
+      const recaptchaToken = await executeRecaptcha('submit');
+      if (!recaptchaToken) {
+        throw new Error('reCAPTCHA verification failed');
+      }
+
       const message = formatMessage(formData);
-      await sendMessageToTelegram(message);
+      await sendMessageToAPI(message, recaptchaToken);
       setFormData(initialFormData);
       Swal.fire({
         title: "Success!",
@@ -61,10 +66,7 @@ const ContactForm = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-xl mx-auto p-6 shadow-md rounded-lg space-y-4"
-    >
+    <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-6 shadow-md rounded-lg space-y-4">
       {["name", "subject", "kelas", "message"].map((field) => (
         <FormField
           key={field}
@@ -87,48 +89,38 @@ const ContactForm = () => {
 };
 
 const formatMessage = (formData: FormData) => `
-*New Contact Form Submission Dragonoir* 📬
+New Contact Form Submission Dragonoir 📬
 
-*Name*: ${formData.name}
-*Subject*: ${formData.subject}
-*Class*: ${formData.kelas}
-*Message*: ${formData.message}
+Name: ${formData.name}
+Subject: ${formData.subject}
+Class: ${formData.kelas}
+Message: ${formData.message}
 `;
 
-const sendMessageToTelegram = async (message: string) => {
-  await fetch(TELEGRAM_URL, {
+const sendMessageToAPI = async (message: string, recaptchaToken: string) => {
+  await fetch('/api/contact', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      chat_id: CHAT_ID,
-      text: message,
-      parse_mode: "Markdown",
+      message,
+      recaptchaToken,
     }),
   });
 };
 
-const capitalizeFirstLetter = (string: string) =>
-  string.charAt(0).toUpperCase() + string.slice(1);
+const capitalizeFirstLetter = (string: string) => string.charAt(0).toUpperCase() + string.slice(1);
 
 interface FormFieldProps {
   label: string;
   name: string;
   value: string;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   isTextarea?: boolean;
 }
 
-const FormField: React.FC<FormFieldProps> = ({
-  label,
-  name,
-  value,
-  onChange,
-  isTextarea = false,
-}) => (
+const FormField: React.FC<FormFieldProps> = ({ label, name, value, onChange, isTextarea = false }) => (
   <div>
     <label className="block text-gray-700 font-mono">{label}</label>
     {isTextarea ? (
