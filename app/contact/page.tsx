@@ -3,7 +3,7 @@ import Head from 'next/head';
 import ContactForm from '../../components/ContactsForm';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
-const SITE_KEY = 'YOUR_RECAPTCHA_SITE_KEY';
+const SITE_KEY = '6LcyLvopAAAAADIFCeDJ_rnj2_z4Dz_IR0XDaMi7';
 
 const ContactPage: NextPage = () => {
   return (
