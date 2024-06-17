@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const RECAPTCHA_SECRET_KEY = "6LcyLvopAAAAALZbkPi9RKYUBKFbxH1mOgWfMSXS";
+const RECAPTCHA_SECRET_KEY = "6LcyLvopAAAAADIFCeDJ_rnj2_z4Dz_IR0XDaMi7";
 const BOT_TOKEN = "7190175151:AAHaGL4M2Q71UB93NPUJ0sOAy29WSUjp1w4";
 const CHAT_ID = "1365766425";
 const TELEGRAM_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
-export const POST = async (req: NextRequest) => {
+export async function POST(req: NextRequest) {
   const { recaptchaToken, message } = await req.json();
 
   // Verify reCAPTCHA token

@@ -3,9 +3,9 @@ import Head from 'next/head';
 import ContactForm from '../../components/ContactsForm';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
-const SITE_KEY = '6LcyLvopAAAAADIFCeDJ_rnj2_z4Dz_IR0XDaMi7';
+const SITE_KEY = 'YOUR_RECAPTCHA_SITE_KEY';
 
-const Home: NextPage = () => {
+const ContactPage: NextPage = () => {
   return (
     <GoogleReCaptchaProvider reCaptchaKey={SITE_KEY}>
       <div className="mt-40 px-3">
@@ -23,4 +23,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default ContactPage;

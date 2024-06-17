@@ -1,3 +1,4 @@
+// components/ContactForm.tsx
 "use client";
 
 import { useState } from "react";
@@ -33,12 +34,13 @@ const ContactForm = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      if (!executeRecaptcha) {
-        throw new Error('reCAPTCHA has not been loaded');
-      }
+    if (!executeRecaptcha) {
+      console.error('Execute recaptcha not yet available');
+      return;
+    }
 
-      const recaptchaToken = await executeRecaptcha('submit');
+    try {
+      const recaptchaToken = await executeRecaptcha('inquirysubmit');
       if (!recaptchaToken) {
         throw new Error('reCAPTCHA verification failed');
       }
