@@ -92,6 +92,8 @@ const ContactForm = () => {
         <Turnstile
           sitekey="0x4AAAAAAAcvvnfdGv7Urzre"
           onVerify={(token) => setToken(token)}
+          className="turnstile-captcha scale-75"
+          style={{ transformOrigin: '0 0' }}
         />
       </div>
       <button
