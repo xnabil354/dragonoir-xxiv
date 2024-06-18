@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { RingLoader } from "react-spinners";
-
+import Turnstile from 'react-turnstile';
 
 interface FormData {
   name: string;
@@ -26,6 +26,7 @@ const TELEGRAM_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 const ContactForm = () => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -37,6 +38,17 @@ const ContactForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+
+    if (!token) {
+      Swal.fire({
+        title: "Error!",
+        text: "Please complete the CAPTCHA.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const message = formatMessage(formData);
@@ -76,6 +88,12 @@ const ContactForm = () => {
           isTextarea={field === "message"}
         />
       ))}
+      <div className="mt-4">
+        <Turnstile
+          sitekey="0x4AAAAAAAcvvnfdGv7Urzre"
+          onVerify={(token) => setToken(token)}
+        />
+      </div>
       <button
         type="submit"
         className="w-full py-3 rounded-lg transition-all duration-300 flex items-center justify-center font-mono bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg hover:shadow-xl hover:from-purple-600 hover:to-blue-500"
@@ -88,12 +106,12 @@ const ContactForm = () => {
 };
 
 const formatMessage = (formData: FormData) => `
-*New Contact Form Submission Dragonoir* 📬
+New Contact Form Submission Dragonoir 📬
 
-*Name*: ${formData.name}
-*Subject*: ${formData.subject}
-*Class*: ${formData.kelas}
-*Message*: ${formData.message}
+Name: ${formData.name}
+Subject: ${formData.subject}
+Class: ${formData.kelas}
+Message: ${formData.message}
 `;
 
 const sendMessageToTelegram = async (message: string) => {
