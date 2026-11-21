@@ -7,16 +7,17 @@ export async function generateStaticParams() {
   return data.map((d) => ({ id: d.id }));
 }
 
-export default async function Profile({ params }: { params: { id: string } }) {
-  const current: any = data?.find((d: any) => d.id == params.id);
+export default async function Profile({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const current: any = data?.find((d: any) => d.id == id);
 
   return (
     <div className="w-full mx-4 md:mx-32 xl:mx-56 py-32">
       <div className="flex justify-start space-x-10 pt-5">
         <div className="flex justfy-center items-center min-w-[100px]">
           <Image
-            src={`/pfp/${params.id}.jpg`}
-            alt={params.id}
+            src={`/pfp/${id}.jpg`}
+            alt={id}
             width={200}
             height={200}
             className="rounded-full"
